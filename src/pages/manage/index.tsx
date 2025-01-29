@@ -32,7 +32,7 @@ const Manage = () => {
           <SideMenu items={side_menu_items} />
           <Center>
             <HStack spacing="$4" p="$2" color="$neutral11">
-              <SwitchLanguageWhite />
+              {/*<SwitchLanguageWhite />*/}
               <SwitchColorMode />
             </HStack>
           </Center>
