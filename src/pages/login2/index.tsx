@@ -175,147 +175,171 @@ const Login = () => {
   }
 
   return (
-    <Center zIndex="1" w="$full" h="100vh">
-      <VStack
-        bgColor={bgColor()}
-        rounded="$xl"
-        p="24px"
-        w={{
-          "@initial": "90%",
-          "@sm": "364px",
-        }}
-        spacing="$4"
-      >
-        <Flex alignItems="center" justifyContent="space-around">
-          <Image mr="$2" boxSize="$12" src={logo()} />
-          <Heading color="$info9" fontSize="$2xl">
-            {title()}
-          </Heading>
-        </Flex>
-        <Show
-          when={!needOpt()}
-          fallback={
-            <Input
-              id="totp"
-              name="otp"
-              placeholder={t("login.otp-tips")}
-              value={opt()}
-              onInput={(e) => setOpt(e.currentTarget.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  Login()
-                }
-              }}
-            />
-          }
+    <div>
+      <Center zIndex="1" w="$full" h="100vh">
+        <VStack
+          bgColor={bgColor()}
+          rounded="$xl"
+          p="24px"
+          w={{
+            "@initial": "90%",
+            "@sm": "364px",
+          }}
+          spacing="$4"
         >
-          <Input
-            name="username"
-            placeholder={t("login.username-tips")}
-            value={username()}
-            onInput={(e) => setUsername(e.currentTarget.value)}
-          />
-          <Show when={!useauthn()}>
-            <Input
-              name="password"
-              placeholder={t("login.password-tips")}
-              type="password"
-              value={password()}
-              onInput={(e) => setPassword(e.currentTarget.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  Login()
-                }
-              }}
-            />
-          </Show>
-          <Flex
-            px="$1"
-            w="$full"
-            fontSize="$sm"
-            color="$neutral10"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Checkbox
-              checked={remember() === "true"}
-              onChange={() =>
-                setRemember(remember() === "true" ? "false" : "true")
-              }
-            >
-              {t("login.remember")}
-            </Checkbox>
-            {/*<Text as="a" target="_blank" href={t("login.forget_url")}>*/}
-            {/*  {t("login.forget")}*/}
-            {/*</Text>*/}
+          <Flex alignItems="center" justifyContent="space-around">
+            <Image mr="$2" boxSize="$12" src={logo()} />
+            <Heading color="$info9" fontSize="$2xl">
+              {title()}
+            </Heading>
           </Flex>
-        </Show>
-        <HStack w="$full" spacing="$2">
-          <Show when={!useauthn()}>
-            <Button
-              colorScheme="primary"
-              w="$full"
-              onClick={() => {
-                if (needOpt()) {
-                  setOpt("")
-                } else {
-                  setUsername("")
-                  setPassword("")
-                }
-              }}
-            >
-              {t("login.clear")}
-            </Button>
-          </Show>
-          <Button w="$full" loading={loading()} onClick={Login}>
-            {t("login.login")}
-          </Button>
-        </HStack>
-        <Show when={ldapLoginEnabled}>
-          <Checkbox
-            w="$full"
-            checked={useLdap() === true}
-            onChange={() => setUseLdap(!useLdap())}
+          <Show
+            when={!needOpt()}
+            fallback={
+              <Input
+                id="totp"
+                name="otp"
+                placeholder={t("login.otp-tips")}
+                value={opt()}
+                onInput={(e) => setOpt(e.currentTarget.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    Login()
+                  }
+                }}
+              />
+            }
           >
-            {ldapLoginTips}
-          </Checkbox>
-        </Show>
-        {/*<Button*/}
-        {/*  w="$full"*/}
-        {/*  colorScheme="accent"*/}
-        {/*  onClick={() => {*/}
-        {/*    changeToken()*/}
-        {/*    to(*/}
-        {/*      decodeURIComponent(searchParams.redirect || base_path || "/"),*/}
-        {/*      true,*/}
-        {/*    )*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  {t("login.use_guest")}*/}
-        {/*</Button>*/}
-        <Flex
-          mt="$2"
-          justifyContent="space-evenly"
-          alignItems="center"
-          color="$neutral10"
-          w="$full"
-        >
-          {/*<SwitchLanguageWhite />*/}
-          <SwitchColorMode />
-          <SSOLogin />
-          <Show when={AuthnSignEnabled}>
-            <Icon
-              cursor="pointer"
-              boxSize="$8"
-              as={IoFingerPrint}
-              p="$0_5"
-              onclick={AuthnSwitch}
+            <Input
+              name="username"
+              placeholder={t("login.username-tips")}
+              value={username()}
+              onInput={(e) => setUsername(e.currentTarget.value)}
             />
+            <Show when={!useauthn()}>
+              <Input
+                name="password"
+                placeholder={t("login.password-tips")}
+                type="password"
+                value={password()}
+                onInput={(e) => setPassword(e.currentTarget.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    Login()
+                  }
+                }}
+              />
+            </Show>
+            <Flex
+              px="$1"
+              w="$full"
+              fontSize="$sm"
+              color="$neutral10"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Checkbox
+                checked={remember() === "true"}
+                onChange={() =>
+                  setRemember(remember() === "true" ? "false" : "true")
+                }
+              >
+                {t("login.remember")}
+              </Checkbox>
+              {/*<Text as="a" target="_blank" href={t("login.forget_url")}>*/}
+              {/*  {t("login.forget")}*/}
+              {/*</Text>*/}
+            </Flex>
           </Show>
-        </Flex>
-      </VStack>
-      <LoginBg />
-    </Center>
+          <HStack w="$full" spacing="$2">
+            <Show when={!useauthn()}>
+              <Button
+                colorScheme="primary"
+                w="$full"
+                onClick={() => {
+                  if (needOpt()) {
+                    setOpt("")
+                  } else {
+                    setUsername("")
+                    setPassword("")
+                  }
+                }}
+              >
+                {t("login.clear")}
+              </Button>
+            </Show>
+            <Button w="$full" loading={loading()} onClick={Login}>
+              {t("login.login")}
+            </Button>
+          </HStack>
+          <Show when={ldapLoginEnabled}>
+            <Checkbox
+              w="$full"
+              checked={useLdap() === true}
+              onChange={() => setUseLdap(!useLdap())}
+            >
+              {ldapLoginTips}
+            </Checkbox>
+          </Show>
+          {/*<Button*/}
+          {/*  w="$full"*/}
+          {/*  colorScheme="accent"*/}
+          {/*  onClick={() => {*/}
+          {/*    changeToken()*/}
+          {/*    to(*/}
+          {/*      decodeURIComponent(searchParams.redirect || base_path || "/"),*/}
+          {/*      true,*/}
+          {/*    )*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  {t("login.use_guest")}*/}
+          {/*</Button>*/}
+          <Flex
+            mt="$2"
+            justifyContent="space-evenly"
+            alignItems="center"
+            color="$neutral10"
+            w="$full"
+          >
+            {/*<SwitchLanguageWhite />*/}
+            <SwitchColorMode />
+            <SSOLogin />
+            <Show when={AuthnSignEnabled}>
+              <Icon
+                cursor="pointer"
+                boxSize="$8"
+                as={IoFingerPrint}
+                p="$0_5"
+                onclick={AuthnSwitch}
+              />
+            </Show>
+          </Flex>
+        </VStack>
+        <LoginBg />
+      </Center>
+      <footer style="padding:10px; text-align: center; font-size: 60%">
+        <div>Copyright © 2021-2025</div>
+        <div>口口 版权所有</div>
+        <div>
+          ICP 口：
+          <a href="https://beian.miit.gov.cn/#/Integrated/index">
+            口 0000000000
+          </a>
+        </div>
+        <div>
+          <a
+            href="https://beian.mps.gov.cn/#/query/webSearch?code=44030502008569"
+            style="display: inline-flex;align-items: center"
+          >
+            <img
+              src="https://qcloudimg.tencent-cloud.cn/raw/eed02831a0e201b8d794c8282c40cf2e.png"
+              style="width: 10px; margin:3px; display: inline-block"
+            />
+            口 00000000000000 口
+          </a>
+        </div>
+      </footer>
+    </div>
   )
 }
 
