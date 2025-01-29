@@ -244,9 +244,9 @@ const Login = () => {
             >
               {t("login.remember")}
             </Checkbox>
-            <Text as="a" target="_blank" href={t("login.forget_url")}>
-              {t("login.forget")}
-            </Text>
+            {/*<Text as="a" target="_blank" href={t("login.forget_url")}>*/}
+            {/*  {t("login.forget")}*/}
+            {/*</Text>*/}
           </Flex>
         </Show>
         <HStack w="$full" spacing="$2">
