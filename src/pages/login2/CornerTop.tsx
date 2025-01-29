@@ -11,7 +11,7 @@ const CornerTop = (props: Props) => {
   const merged = mergeProps(
     {
       startColor: "#28aff0",
-      endColor: "#120fc4",
+      endColor: "#28aff0",
     },
     props,
   )
