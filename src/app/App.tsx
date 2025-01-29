@@ -64,10 +64,10 @@ const App: Component = () => {
         handleRespWithoutAuthAndNotify(
           (await r.get("/public/archive_extensions")) as Resp<string[]>,
           setArchiveExtensions,
-          // (e) => setErr(err().concat(e)),
-          (e) => {
-            if (e != null) setErr(err().concat(e))
-          },
+          (e) => setErr(err().concat(e)),
+          // (e) => {
+          //   if (e != null) setErr(err().concat(e))
+          // },
         )
       })(),
     ]),
