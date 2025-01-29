@@ -24,7 +24,8 @@ import { setArchiveExtensions } from "~/store/archive"
 
 const Home = lazy(() => import("~/pages/home/Layout"))
 const Manage = lazy(() => import("~/pages/manage"))
-const Login = lazy(() => import("~/pages/login"))
+const LoginReal = lazy(() => import("~/pages/login"))
+const Login = lazy(() => import("~/pages/login2"))
 const Test = lazy(() => import("~/pages/test"))
 
 const App: Component = () => {
@@ -63,7 +64,10 @@ const App: Component = () => {
         handleRespWithoutAuthAndNotify(
           (await r.get("/public/archive_extensions")) as Resp<string[]>,
           setArchiveExtensions,
-          (e) => setErr(err().concat(e)),
+          // (e) => setErr(err().concat(e)),
+          (e) => {
+            if (e != null) setErr(err().concat(e))
+          },
         )
       })(),
     ]),
@@ -90,6 +94,7 @@ const App: Component = () => {
           <Routes base={base_path}>
             <Route path="/@test" component={Test} />
             <Route path="/@login" component={Login} />
+            <Route path="/@loginreal" component={LoginReal} />
             <Route
               path="/@manage/*"
               element={
