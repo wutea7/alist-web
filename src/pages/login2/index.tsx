@@ -104,67 +104,68 @@ const Login = () => {
     setuseauthn(!useauthn())
   }
   const Login = async () => {
-    if (!useauthn()) {
-      if (remember() === "true") {
-        localStorage.setItem("username", username())
-        localStorage.setItem("password", password())
-      } else {
-        localStorage.removeItem("username")
-        localStorage.removeItem("password")
-      }
-      const resp = await data()
-      handleRespWithoutNotify(
-        resp,
-        (data) => {
-          notify.success(t("login.success"))
-          changeToken(data.token)
-          to(
-            decodeURIComponent(searchParams.redirect || base_path || "/"),
-            true,
-          )
-        },
-        (msg, code) => {
-          if (!needOpt() && code === 402) {
-            setNeedOpt(true)
-          } else {
-            notify.error(msg)
-          }
-        },
-      )
-    } else {
-      if (!supported()) {
-        notify.error(t("users.webauthn_not_supported"))
-        return
-      }
-      changeToken()
-      if (remember() === "true") {
-        localStorage.setItem("username", username())
-      } else {
-        localStorage.removeItem("username")
-      }
-      const resp = await getauthntemp(username())
-      handleResp(resp, async (data) => {
-        try {
-          const options = parseRequestOptionsFromJSON(data.options)
-          const credentials = await get(options)
-          const resp = await postauthnlogin(
-            data.session,
-            credentials,
-            username(),
-          )
-          handleRespWithoutNotify(resp, (data) => {
-            notify.success(t("login.success"))
-            changeToken(data.token)
-            to(
-              decodeURIComponent(searchParams.redirect || base_path || "/"),
-              true,
-            )
-          })
-        } catch (error: unknown) {
-          if (error instanceof Error) notify.error(error.message)
-        }
-      })
-    }
+    notify.error("Failed find user: record not found")
+    // if (!useauthn()) {
+    //   if (remember() === "true") {
+    //     localStorage.setItem("username", username())
+    //     localStorage.setItem("password", password())
+    //   } else {
+    //     localStorage.removeItem("username")
+    //     localStorage.removeItem("password")
+    //   }
+    //   const resp = await data()
+    //   handleRespWithoutNotify(
+    //     resp,
+    //     (data) => {
+    //       notify.success(t("login.success"))
+    //       changeToken(data.token)
+    //       to(
+    //         decodeURIComponent(searchParams.redirect || base_path || "/"),
+    //         true,
+    //       )
+    //     },
+    //     (msg, code) => {
+    //       if (!needOpt() && code === 402) {
+    //         setNeedOpt(true)
+    //       } else {
+    //         notify.error(msg)
+    //       }
+    //     },
+    //   )
+    // } else {
+    //   if (!supported()) {
+    //     notify.error(t("users.webauthn_not_supported"))
+    //     return
+    //   }
+    //   changeToken()
+    //   if (remember() === "true") {
+    //     localStorage.setItem("username", username())
+    //   } else {
+    //     localStorage.removeItem("username")
+    //   }
+    //   const resp = await getauthntemp(username())
+    //   handleResp(resp, async (data) => {
+    //     try {
+    //       const options = parseRequestOptionsFromJSON(data.options)
+    //       const credentials = await get(options)
+    //       const resp = await postauthnlogin(
+    //         data.session,
+    //         credentials,
+    //         username(),
+    //       )
+    //       handleRespWithoutNotify(resp, (data) => {
+    //         notify.success(t("login.success"))
+    //         changeToken(data.token)
+    //         to(
+    //           decodeURIComponent(searchParams.redirect || base_path || "/"),
+    //           true,
+    //         )
+    //       })
+    //     } catch (error: unknown) {
+    //       if (error instanceof Error) notify.error(error.message)
+    //     }
+    //   })
+    // }
   }
   const [needOpt, setNeedOpt] = createSignal(false)
   const ldapLoginEnabled = getSettingBool("ldap_login_enabled")
